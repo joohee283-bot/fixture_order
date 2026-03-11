@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마케팅 집기 발주 시스템 - LGE Visual</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Using Boxicons for lightweight icons styling similar to LG Visual -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+    <!-- Global Header (PC Full Width) -->
+    <header class="app-header">
+        <div class="header-container">
+            <div class="header-logo" style="cursor:pointer;" onclick="app.navigateTo('home')">
+                <span class="lg-logo-text"><i class='bx bxl-lg' style="color:var(--primary-color);"></i> LG전자</span>
+            </div>
+            <div class="header-actions">
+                <button class="icon-btn"><i class='bx bx-help-circle'></i></button>
+                <button class="icon-btn"><i class='bx bx-star'></i></button>
+                <button class="icon-btn"><i class='bx bx-headphone'></i></button>
+                <button class="icon-btn"><i class='bx bx-shopping-bag'></i></button>
+                <button class="icon-btn"><i class='bx bx-menu'></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main id="app-main" class="app-main">
+        <!-- Views injected here -->
+    </main>
+
+    <!-- Modals (Global) -->
+    <div id="storeSearchModal" class="modal-overlay">
+        <div class="modal-content bottom-sheet">
+            <div class="modal-header">
+                <h3>매장찾기</h3>
+                <button class="close-btn" onclick="app.closeModal('storeSearchModal')">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="search-box">
+                    <input type="text" id="storeSearchInput" placeholder="매장명을 입력하세요">
+                    <button class="btn-icon" onclick="app.searchStore()"><i class='bx bx-search'></i></button>
+                </div>
+                <div id="storeSearchResult" class="store-result">
+                    <!-- Search results -->
+                </div>
+
+                <div class="form-group">
+                    <label>휴대전화</label>
+                    <input type="tel" id="userPhone" placeholder="010-0000-0000" value="010-3098-2685">
+                </div>
+                <div class="form-group">
+                    <label>수령인</label>
+                    <input type="text" id="userName" placeholder="이름 입력" value="홍민섭">
+                </div>
+            </div>
+            <div class="modal-footer flex-row-between mt-3">
+                <button class="btn btn-outline" style="width: 48%;" onclick="app.closeModal('storeSearchModal')">이전
+                    단계</button>
+                <button class="btn btn-primary" style="width: 48%; margin-left: auto;" onclick="app.confirmStore()">입력
+                    완료</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Button (Global) -->
+    <div id="fab-container" class="fab-container">
+        <button id="fabMainBtn" class="fab-main-btn flex-row-center" onclick="app.toggleFabMenu()">
+            <span class="fab-icon"
+                style="font-size:1.8rem; line-height:1; display:inline-block; transition:transform 0.3s;">+</span>
+            <span class="fab-text"
+                style="display:none; margin-left:8px; white-space:nowrap; font-size:0.95rem; font-weight:bold;">마케팅/VMD
+                집기 요청</span>
+        </button>
+    </div>
+
+    <!-- ===== TEMPLATES ===== -->
+
+    <!-- 1. Home Dashboard (PC Layout) -->
+    <template id="tpl-home">
+        <div class="view-home container-pc">
+            <!-- Banner area matching image -->
+            <div class="hero-banner-pc">
+                <div class="banner-content">
+                    <div style="flex:1;">
+                        <h2 style="font-size: 1.5rem; margin-bottom: 8px;">2026 01월 전사판촉 업데이트</h2>
+                        <p style="color:var(--text-muted);">POP 사용설명서를 확인해주세요.</p>
+                    </div>
+                    <div class="banner-graphic">
+                        <img src="images/main_banner.png" alt="Banner Graphic" style="max-height: 120px;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4 Grid Cards -->
+            <div class="dashboard-grid-pc">
+                <div class="dash-card bg-pink">
+                    <i class='bx bx-help-circle card-help-icon'></i>
+                    <h3>제작물 요청</h3>
+                    <img src="images/main_link_img1.png" class="card-bg-img">
+                </div>
+                <div class="dash-card bg-blue" onclick="app.navigateTo('storeList')">
+                    <i class='bx bx-help-circle card-help-icon text-white'></i>
+                    <h3 class="text-white">매장 정보</h3>
+                    <img src="images/main_link_img2.png" class="card-bg-img-bottom">
+                </div>
+                <!-- Dashboard Grid Items -->
+                <div class="dash-card bg-green">
+                    <i class='bx bx-help-circle card-help-icon'></i>
+                    <h3>POP 요청</h3>
+                    <img src="images/main_link_img3.png" class="card-bg-img-center">
+                </div>
+                <div class="dash-card bg-beige" onclick="app.navigateTo('guideList')">
+                    <i class='bx bx-help-circle card-help-icon'></i>
+                    <h3>통합 가이드</h3>
+                    <img src="images/main_link_img4.png" class="card-bg-img">
+                </div>
+            </div>
+
+            <div style="margin-top: 40px;">
+                <h3 style="margin-bottom: 16px;">POP 사용설명서 <i class='bx bx-help-circle'
+                        style="color:var(--text-muted); font-size:1.2rem;"></i> <button class="btn-icon float-right"
+                        style="background:white; border-radius:50%; box-shadow:0 2px 5px rgba(0,0,0,0.1);"><i
+                            class='bx bx-plus'></i></button></h3>
+                <div style="display:flex; gap:16px; overflow-x:auto;">
+                    <!-- Mock list items -->
+                    <div style="width:250px; background:white; padding:12px; border-radius:8px;">
+                        <img src="https://images.unsplash.com/photo-1584622781564-1d987f7333c1?auto=format&fit=crop&w=220&h=150&q=80"
+                            style="width:100%;">
+                        <div class="mt-3">
+                            <span class="text-primary" style="font-size:0.7rem; font-weight:bold;">NEW</span>
+                            <span
+                                style="float:right; border:1px solid #FF4081; color:#FF4081; font-size:0.7rem; padding:2px 4px; border-radius:4px;">혼매</span>
+                        </div>
+                        <p style="font-size:0.8rem; color:var(--text-muted); margin-top:8px;">육성제품 > 스타일러</p>
+                        <h4 style="font-size:0.9rem;">25년 LG 스타일러 신제품 POP...</h4>
+                    </div>
+                    <div style="width:250px; background:white; padding:12px; border-radius:8px;">
+                        <img src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&w=220&h=150&q=80"
+                            style="width:100%;">
+                        <div class="mt-3">
+                            <span class="text-primary" style="font-size:0.7rem; font-weight:bold;">NEW</span>
+                            <span
+                                style="float:right; border:1px solid #FF4081; color:#FF4081; font-size:0.7rem; padding:2px 4px; border-radius:4px;">혼매</span>
+                        </div>
+                        <p style="font-size:0.8rem; color:var(--text-muted); margin-top:8px;">육성제품 > 스타일러</p>
+                        <h4 style="font-size:0.9rem;">26년 LG스타일러 영상 스탠드...</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- 2. Fixture Request Flow (Centered Mobile-like Container for wireframe functionality) -->
+
+    <template id="tpl-fixture-list">
+        <div class="view-fixture-list pc-content-container">
+            <div class="page-header flex-row-center">
+                <button class="icon-btn" onclick="app.navigateTo('home')"><i class='bx bx-chevron-left'
+                        style="font-size:1.5rem;"></i></button>
+                <h2>집기 요청</h2>
+                <div style="width:24px;"></div>
+            </div>
+
+            <!-- Main Tabs -->
+            <div class="app-tabs">
+                <button class="app-tab-btn" data-type="marketing" onclick="app.switchFixtureTab('marketing')">마케팅
+                    집기</button>
+                <button class="app-tab-btn active" data-type="vmd" onclick="app.switchFixtureTab('vmd')">VMD 집기</button>
+            </div>
+
+            <!-- Search -->
+            <div class="search-bar-wrap">
+                <div class="search-box bg-light">
+                    <input type="text" placeholder="검색어를 입력하세요">
+                    <button class="btn-icon"><i class='bx bx-search'></i></button>
+                </div>
+                <button class="btn-icon text-muted" style="margin-left:8px; font-size:0.9rem;"><i
+                        class='bx bx-sort'></i> 정렬</button>
+            </div>
+
+            <!-- Sub Category Tags (Dynamic based on main tab) -->
+            <div class="pd-horizontal">
+                <h4>집기 선택</h4>
+            </div>
+            <div class="category-slider pd-horizontal mt-2" id="categorySlider">
+                <!-- Injected via JS -->
+            </div>
+
+            <!-- Fixture List -->
+            <div class="fixture-list-container pd-horizontal mt-3" id="fixtureGrid">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </template>
+
+    <template id="tpl-subitem-list">
+        <div class="view-subitem-list pc-content-container">
+            <div class="page-header flex-row-center">
+                <button class="icon-btn" id="subItemBackButton"><i class='bx bx-chevron-left'
+                        style="font-size:1.5rem;"></i></button>
+                <h2>집기 요청</h2>
+                <div style="width:24px;"></div>
+            </div>
+
+            <!-- Search -->
+            <div class="search-bar-wrap mt-3">
+                <div class="search-box bg-light">
+                    <input type="text" placeholder="검색어를 입력하세요">
+                    <button class="btn-icon"><i class='bx bx-search'></i></button>
+                </div>
+                <button class="btn-icon text-muted" style="margin-left:8px; font-size:0.9rem;"><i
+                        class='bx bx-sort'></i> 정렬</button>
+            </div>
+
+            <div class="pd-horizontal mt-3">
+                <h4 id="subItemListCategoryTitle">분류 명</h4>
+            </div>
+
+            <!-- Vertical List -->
+            <div class="pd-horizontal mt-3" id="subItemVerticalList">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </template>
+
+    <template id="tpl-fixture-detail">
+        <div class="view-fixture-detail pc-content-container">
+            <div class="page-header flex-row-center">
+                <button class="icon-btn" onclick="app.navigateTo('fixtureList')"><i class='bx bx-chevron-left'
+                        style="font-size:1.5rem;"></i></button>
+                <div style="display:flex; gap:12px;">
+                    <i class='bx bx-help-circle icon-btn'></i>
+                    <i class='bx bx-star icon-btn'></i>
+                    <i class='bx bx-shopping-bag icon-btn'></i>
+                </div>
+            </div>
+
+            <div class="fixture-detail-layout">
+                <!-- Left: Preview -->
+                <div class="fixture-preview-side">
+                    <div class="fixture-main-img-box">
+                        <img id="detailImg" src="" alt="Fixture">
+                    </div>
+                </div>
+
+                <!-- Right: Form -->
+                <div class="fixture-form-side">
+                    <div class="pd-horizontal">
+                        <h2 id="detailName" style="font-size: 1.6rem; margin-bottom: 20px;"></h2>
+
+                        <!-- Info Table -->
+                        <table class="info-table">
+                            <tr>
+                                <th width="30%">사이즈</th>
+                                <td id="detailSize"></td>
+                            </tr>
+                            <tr>
+                                <th>재고</th>
+                                <td><input type="text" id="detailStock" class="form-input" style="width:80px;" disabled>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <hr class="divider">
+
+                        <!-- Request Options -->
+                        <h4 style="font-size:0.95rem; margin-bottom:12px;">요청 내용 <span
+                                style="color:var(--primary-color); font-size:0.8rem; font-weight:normal;">*필수</span>
+                        </h4>
+                        <div class="checkbox-grid" style="margin-bottom: 30px;">
+                            <label class="custom-checkbox"><input type="radio" name="requestType" value="설치"> <span
+                                    class="checkmark"></span> 설치</label>
+                            <label class="custom-checkbox"><input type="radio" name="requestType" value="회수"> <span
+                                    class="checkmark"></span> 회수</label>
+                            <label class="custom-checkbox"><input type="radio" name="requestType" value="A/S"> <span
+                                    class="checkmark"></span> A/S</label>
+                            <label class="custom-checkbox"><input type="radio" name="requestType" value="추가제작"> <span
+                                    class="checkmark"></span> 추가제작</label>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 40px;">
+                            <label>요청 매장 <span
+                                    style="color:var(--primary-color); font-size:0.8rem; font-weight:normal;">*필수</span></label>
+                            <div class="search-box">
+                                <input type="text" placeholder="매장명을 입력하세요" onclick="app.openModal('storeSearchModal')"
+                                    readonly>
+                                <button class="btn-icon"><i class='bx bx-search'></i></button>
+                            </div>
+                        </div>
+
+                        <div id="selectedStoreInfo" class="selected-store-card mt-3" style="display:none;">
+                            <div class="flex-row-between">
+                                <span id="selectedStoreName" style="font-weight:bold;">홈플러스 영통점</span>
+                                <i class='bx bx-x' style="cursor:pointer;"
+                                    onclick="document.getElementById('selectedStoreInfo').style.display='none'"></i>
+                            </div>
+                        </div>
+
+                        <div class="mt-5">
+                            <button class="btn btn-primary btn-block"
+                                style="height:54px; font-weight:bold; background-color:#A50034; border-color:#A50034; font-size: 1.1rem;"
+                                onclick="app.submitRequest()">요청하기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- 3. Guide Templates (PC Layout) -->
+    <template id="tpl-guide-list">
+        <div class="container-pc"
+            style="background: white; padding: 60px 40px; text-align:center; min-height:800px; border-radius:12px; margin-top:20px;">
+            <h2 style="font-size: 2rem; margin-bottom: 16px;">통합 가이드</h2>
+            <p style="color:var(--text-muted); font-size:1rem; line-height:1.6; margin-bottom:40px;">
+                LG전자에서 배포한 전사판촉 및 공통 가이드 및<br>
+                철제스탠드 내지, 디지털 포스터의 현황을 확인할 수 있는 메뉴입니다.
+            </p>
+
+            <!-- Tabs -->
+            <div class="guide-tabs">
+                <button class="guide-tab active">최신소식</button>
+                <button class="guide-tab">디지털 컨텐츠 가이드</button>
+                <button class="guide-tab">철제스탠드 내지</button>
+                <button class="guide-tab">리테일 가이드</button>
+                <button class="guide-tab">동영상</button>
+            </div>
+
+            <!-- Search -->
+            <div class="guide-search-wrap">
+                <input type="text" placeholder="검색어를 입력하세요.">
+                <button><i class='bx bx-search'></i></button>
+            </div>
+
+            <!-- Grid -->
+            <div class="guide-grid">
+                <div class="guide-card" onclick="app.navigateTo('guideDetail')">
+                    <div class="guide-card-tags">
+                        <span class="guide-tag">디지털 컨텐츠 가이드</span>
+                        <span class="guide-tag-update">UPDATE</span>
+                    </div>
+                    <div class="guide-card-title">M] 디지털 컨텐츠 가이드_260209</div>
+                    <div class="guide-card-date">2026.03.04</div>
+                </div>
+                <!-- Card 2 -->
+                <div class="guide-card" onclick="app.navigateTo('guideDetail')">
+                    <div class="guide-card-tags">
+                        <span class="guide-tag">철제스탠드 내지</span>
+                        <span class="guide-tag-update">UPDATE</span>
+                    </div>
+                    <div class="guide-card-title">M] 철제스탠드 내지 조성가이드 업데이트_스타일러, 에어케어, 쿠킹, 워터케어_260305</div>
+                    <div class="guide-card-date">2026.03.05</div>
+                </div>
+                <!-- Card 3 -->
+                <div class="guide-card" onclick="app.navigateTo('guideDetail')">
+                    <div class="guide-card-tags">
+                        <span class="guide-tag">리테일 가이드</span>
+                        <span class="guide-tag-update">UPDATE</span>
+                    </div>
+                    <div class="guide-card-title">혼매/M] 리테일 디자인 가이드 0114</div>
+                    <div class="guide-card-date">2026.03.04</div>
+                </div>
+                <!-- Card 4 -->
+                <div class="guide-card" onclick="app.navigateTo('guideDetail')">
+                    <div class="guide-card-tags">
+                        <span class="guide-tag">리테일 가이드</span>
+                        <span class="guide-tag-update">UPDATE</span>
+                    </div>
+                    <div class="guide-card-title">전혼매 전문PC] 리테일 디자인 가이드 0114</div>
+                    <div class="guide-card-date">2026.03.05</div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="app-footer container-pc mt-3" style="padding:24px 0; border-top:2px solid #222;">
+            <span style="font-weight:bold; margin-right:16px;">Privacy Policy</span>
+            <span style="font-weight:bold;">Terms & Conditions</span>
+        </footer>
+    </template>
+
+    <template id="tpl-guide-detail">
+        <div class="container-pc" style="padding-top: 40px; min-height:80vh;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <h3 style="font-size:1.1rem; display:flex; align-items:center; cursor:pointer;"
+                    onclick="app.navigateTo('guideList')"><i class='bx bx-chevron-left'
+                        style="font-size:1.5rem; margin-right:8px;"></i> 260212 디지털 컨텐츠 가이드_시스템 업로드용.pdf</h3>
+
+                <div style="display:flex; gap:16px; color:var(--text-muted); font-size:1.2rem; align-items:center;">
+                    <i class='bx bx-zoom-out' style="cursor:pointer;"></i>
+                    <span style="font-size:0.9rem; color:#333;">156%</span>
+                    <i class='bx bx-zoom-in' style="cursor:pointer;"></i>
+                    <i class='bx bx-fullscreen' style="cursor:pointer;"></i>
+                </div>
+            </div>
+
+            <div style="display:flex; gap:40px;">
+                <!-- Sidebar -->
+                <div style="width:200px; flex-shrink:0;">
+                    <div
+                        style="font-weight:bold; padding-bottom:12px; border-bottom:2px solid var(--text-main); margin-bottom:12px; font-size:0.95rem;">
+                        디지털 컨텐츠 가이드</div>
+                    <ul class="guide-sidebar-menu">
+                        <li>86 가로</li>
+                        <li>55 세로</li>
+                        <li>55 가로</li>
+                        <li>55 가로-4X2 비율</li>
+                        <li>55 가로-2X2</li>
+                        <li>4X4</li>
+                        <li>4X5</li>
+                        <li>오류 조치 가이드</li>
+                    </ul>
+                </div>
+
+                <!-- Content (PDF Mock) -->
+                <div
+                    style="flex:1; background:#f9f9f9; border:1px solid var(--border-color); display:flex; justify-content:center; padding:0; overflow:hidden;">
+                    <div
+                        style="width:100%; max-width:900px; background:linear-gradient(135deg, #A50034, #ff4081); height:1100px; padding:40px; color:white; position:relative;">
+                        <h1
+                            style="font-size:1.8rem; margin-bottom:100px; display:flex; align-items:center; font-weight:800;">
+                            <i class='bx bxl-lg' style="font-size:2.5rem; margin-right:8px;"></i> LG전자
+                        </h1>
+                        <h2 style="font-size:3.5rem; text-align:center; margin-top:200px; font-weight:bold;">디지털 컨텐츠 가이드
+                        </h2>
+                        <p style="text-align:right; margin-top:20px; font-size:1rem; opacity:0.9;">26.2.2.ver.</p>
+
+                        <div
+                            style="position:absolute; bottom:20px; left:20px; background:#800028; border-radius:50%; width:40px; height:40px; display:flex; justify-content:center; align-items:center; cursor:pointer;">
+                            <i class='bx bx-download' style="font-size:1.2rem;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="app.js"></script>
+    <!-- 5. Store Information Feature -->
+    <template id="tpl-store-list">
+        <div class="pc-content-container">
+            <div class="page-header flex-row-center">
+                <button class="icon-btn" onclick="app.navigateTo('home')"><i class='bx bx-chevron-left'
+                        style="font-size:1.5rem;"></i></button>
+                <h2>매장 정보</h2>
+                <div style="width:24px;"></div>
+            </div>
+
+            <div class="text-center mt-4" style="margin-bottom: 40px;">
+                <p class="text-muted" style="line-height: 1.6; font-size: 0.85rem; margin: 0 auto; text-align: center;">
+                    매장 점검에 필요한 각 매장의 내외부 및 지점별 HSAD 현장대리인 담당자 정보, 분기별 매장 점검 결과 및 사진을 확인할 수 있는 메뉴입니다.
+                </p>
+            </div>
+
+            <div class="guide-search-wrap" style="margin-bottom: 20px;">
+                <input type="text" placeholder="검색어를 입력하세요">
+                <button><i class='bx bx-search'></i></button>
+            </div>
+
+            <div class="flex-row-between mb-4" style="border-bottom: 1px solid #eee; padding-bottom: 12px;">
+                <div class="text-muted">총 <span id="storeCount">0</span>건</div>
+                <div class="flex-row-center" style="gap: 15px;">
+                    <span style="font-weight: bold; color: var(--text-main); cursor: pointer;">카드형</span>
+                    <span style="color: #ccc;">|</span>
+                    <span style="color: #999; cursor: pointer;">리스트</span>
+                    <i class='bx bx-slider-alt' style="margin-left: 10px; cursor: pointer; font-size: 1.2rem;"></i>
+                </div>
+            </div>
+
+            <div class="store-grid" id="storeGrid">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </template>
+
+    <template id="tpl-store-detail">
+        <div class="pc-content-container">
+            <div class="page-header flex-row-center">
+                <button class="icon-btn" onclick="app.navigateTo('storeList')"><i class='bx bx-chevron-left'
+                        style="font-size:1.5rem;"></i></button>
+                <h2>매장 상세 정보</h2>
+                <div style="width:24px;"></div>
+            </div>
+
+            <div class="flex-row-center mb-4 mt-3" style="gap: 10px; justify-content: flex-end;">
+                <button class="btn-outline" style="padding: 8px 16px;">매장 문의 확인</button>
+                <button class="btn-outline" style="padding: 8px 16px;">매장 정보 수정</button>
+            </div>
+
+            <div class="store-detail-layout">
+                <!-- Left: Gallery -->
+                <div class="store-gallery-side">
+                    <div class="store-main-img-box">
+                        <img id="storeMainImg" src="" alt="Store Main">
+                        <div class="gallery-nav-btns">
+                            <button class="active">전경1</button>
+                            <button>전경2</button>
+                            <button>전경3</button>
+                        </div>
+                    </div>
+                    <div class="store-thumbnail-list" id="storeThumbnails">
+                        <!-- Thumbnails injected via JS -->
+                    </div>
+                </div>
+
+                <!-- Right: Information -->
+                <div class="store-info-side" id="storeInfoContent">
+                    <!-- Injected via JS -->
+                </div>
+            </div>
+
+            <div class="mt-5" style="border-top: 1px solid var(--text-main); padding-top: 30px;">
+                <div class="flex-row-between mb-3">
+                    <h4 style="font-size:1.1rem; font-weight:bold;">집기 현황</h4>
+                    <div style="display:flex; gap:8px;">
+                        <button class="chip active" id="storeFixtureTabMarketing"
+                            onclick="app.switchStoreFixtureTab('marketing')">마케팅 집기</button>
+                        <button class="chip" id="storeFixtureTabVmd" onclick="app.switchStoreFixtureTab('vmd')">VMD
+                            집기</button>
+                    </div>
+                </div>
+
+                <div id="storeFixtureStatusList" style="margin-top: 50px;">
+                    <!-- Injected via JS -->
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="tpl-fixture-status-detail">
+        <div class="pc-content-container">
+            <div class="view-fixture-detail">
+                <div class="page-header flex-row-center">
+                    <button class="icon-btn" id="statusDetailBackBtn"><i class='bx bx-chevron-left'
+                            style="font-size:1.5rem;"></i></button>
+                    <div style="font-weight:bold; font-size:1.1rem; flex:1; text-align:center;">집기 요청 현황</div>
+                    <div style="width:40px;"></div>
+                </div>
+
+                <div class="fixture-detail-layout">
+                    <div class="fixture-preview-side">
+                        <div class="fixture-main-img-box">
+                            <img id="statusDetailImg" src="" alt="Fixture">
+                        </div>
+                    </div>
+
+                    <div class="fixture-form-side">
+                        <div class="pd-horizontal">
+                            <h2 id="statusDetailName" style="font-size: 1.6rem; margin-bottom: 20px;"></h2>
+
+                            <table class="info-table">
+                                <tr>
+                                    <th width="30%">사이즈</th>
+                                    <td id="statusDetailSize"></td>
+                                </tr>
+                                <tr>
+                                    <th>재고</th>
+                                    <td><input type="text" id="statusDetailStock" class="form-input" style="width:80px;"
+                                            disabled></td>
+                                </tr>
+                            </table>
+
+                            <hr class="divider">
+
+                            <div id="activeRequestInfo" style="display:none;">
+                                <h4 style="font-size:0.95rem; margin-bottom:12px;">요청 내용</h4>
+                                <div class="checkbox-grid mb-4">
+                                    <label class="custom-checkbox"><input type="checkbox" checked disabled> <span
+                                            class="checkmark"></span> <span id="statusReqTypeText"></span></label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>요청 매장</label>
+                                    <div class="selected-store-card">
+                                        <div id="statusStoreName" style="font-weight:bold; margin-bottom:8px;"></div>
+                                        <div class="flex-row-between text-muted" style="font-size:0.9rem;">
+                                            <span>요청일</span>
+                                            <span id="statusReqDate"></span>
+                                        </div>
+                                        <div class="flex-row-between text-muted mt-1" id="statusInstallDateRow"
+                                            style="font-size:0.9rem;">
+                                            <span>설치일</span>
+                                            <span id="statusInstallDate"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-5">
+                                    <button class="btn btn-block btn-light-border"
+                                        style="color:var(--text-main); height:50px; font-weight:bold;"
+                                        onclick="app.cancelFixtureRequest()">요청 취소</button>
+                                </div>
+                            </div>
+
+                            <div id="noRequestInfo">
+                                <h4 style="font-size:0.95rem; margin-bottom:12px;">요청 내용</h4>
+                                <div class="checkbox-grid" style="margin-bottom: 30px;">
+                                    <label class="custom-checkbox"><input type="radio" name="statusNewReq" value="회수">
+                                        <span class="checkmark"></span> 회수</label>
+                                    <label class="custom-checkbox"><input type="radio" name="statusNewReq" value="A/S">
+                                        <span class="checkmark"></span> A/S</label>
+                                    <label class="custom-checkbox"><input type="radio" name="statusNewReq" value="추가제작">
+                                        <span class="checkmark"></span> 추가제작</label>
+                                </div>
+
+                                <div class="form-group" style="margin-bottom: 40px;">
+                                    <label>요청 매장</label>
+                                    <div class="selected-store-card">
+                                        <div id="statusStoreNameNoReq" style="font-weight:bold;"></div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-5">
+                                    <button class="btn btn-primary btn-block"
+                                        style="height:54px; font-weight:bold; background-color:#A50034; border-color:#A50034; font-size: 1.1rem;"
+                                        onclick="app.handleFixtureStatusRequest()">요청하기</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+</body>
+
+</html>
