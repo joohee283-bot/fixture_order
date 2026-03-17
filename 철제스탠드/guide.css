@@ -1,0 +1,457 @@
+.guide-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 30px;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.steel-main-container {
+    background: white;
+    min-height: 800px;
+    border-radius: 12px;
+    margin: 20px auto;
+    padding: 40px 20px;
+    width: 100%;
+    max-width: 1200px;
+    box-sizing: border-box;
+    /* Removed overflow-x: hidden to prevent clipping children, 
+       will handle overflow at the root level if needed */
+}
+
+@media (max-width: 1024px) {
+    .steel-guide-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .guide-tabs {
+        justify-content: flex-start;
+        padding: 0 0 12px;
+        margin-bottom: 24px;
+        width: 100%;
+        scrollbar-width: none;
+    }
+
+    .guide-tabs::-webkit-scrollbar {
+        display: none;
+    }
+
+    .steel-main-container {
+        padding: 24px 20px !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        border-radius: 0;
+        min-height: auto;
+    }
+
+    .steel-action-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .steel-action-group {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .btn-steel-action {
+        flex: 1 1 calc(50% - 4px);
+        justify-content: center;
+        padding: 12px 10px;
+        font-size: 0.85rem;
+        white-space: nowrap;
+    }
+
+    .steel-modal-content,
+    .steel-full-modal-content {
+        width: 96% !important;
+        max-width: 96% !important;
+    }
+
+    .steel-modal-header-responsive {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 16px !important;
+        padding: 24px 20px !important;
+    }
+
+    .steel-modal-header-actions {
+        width: 100%;
+        justify-content: flex-start !important;
+        gap: 16px !important;
+    }
+
+    .steel-download-label {
+        display: none;
+        /* Hide '시안 다운로드 하기' on mobile to save space */
+    }
+}
+
+@media (max-width: 600px) {
+    .steel-guide-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .btn-steel-action {
+        flex: 1 1 100%;
+    }
+
+    .steel-action-group:last-child {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .steel-action-group .btn-steel-action:last-child {
+        grid-column: span 2;
+    }
+
+    .steel-modal-header-actions {
+        flex-direction: row;
+        justify-content: space-between !important;
+    }
+}
+
+/* Steel Stand Sub-header */
+.steel-tab-header {
+    margin-bottom: 28px;
+}
+
+.steel-tab-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--text-main);
+    margin-bottom: 8px;
+}
+
+.steel-tab-desc {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+    max-width: 700px;
+}
+
+.guide-tab {
+    padding: 10px 24px;
+    border: 1px solid var(--border-color);
+    background: white;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text-muted);
+}
+
+.guide-tab.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 10px rgba(165, 0, 52, 0.2);
+}
+
+/* Guide Search */
+.guide-search-wrap {
+    max-width: 100%;
+    margin-bottom: 40px;
+    position: relative;
+    border-bottom: 2px solid var(--text-main);
+    display: flex;
+    /* Ensure input and button are aligned */
+    align-items: center;
+}
+
+.guide-search-wrap input {
+    flex: 1;
+    border: none;
+    padding: 12px 0;
+    font-size: 1.1rem;
+    outline: none;
+}
+
+.guide-search-wrap button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+}
+
+/* Guide Grid & Cards */
+.guide-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    text-align: left;
+}
+
+.guide-card {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 24px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.guide-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.guide-card-tags {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.guide-tag {
+    font-size: 0.75rem;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: #FFF0F3;
+}
+
+.guide-tag-update {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: white;
+    background: #FF4081;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.guide-card-title {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 16px;
+    line-height: 1.4;
+    height: 2.8em;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.guide-card-date {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* Guide Sidebar */
+.guide-sidebar-menu li:last-child {
+    border-bottom: none;
+}
+
+/* ============================
+   Steel Stand Guide - Card Grid
+   ============================ */
+.steel-action-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.steel-action-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.btn-steel-action {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-steel-filled {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+}
+
+.btn-steel-filled:hover {
+    background: var(--hover-color);
+}
+
+.btn-steel-outline {
+    background: white;
+    color: var(--text-main);
+    border: 1px solid #ccc;
+}
+
+.btn-steel-outline:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.steel-guide-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.steel-guide-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.steel-guide-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.steel-guide-card.selected {
+    background: #FFF8FA;
+}
+
+.steel-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.steel-checkbox {
+    width: 24px;
+    height: 24px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    background: #fff;
+}
+
+.steel-checkbox:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(165, 0, 52, 0.1);
+}
+
+.steel-checkbox i {
+    font-size: 1.4rem;
+    font-weight: 800;
+}
+
+.steel-card-name {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+.steel-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.steel-card-date {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.steel-dl-btn {
+    background: none;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    transition: all 0.2s;
+}
+
+.steel-dl-btn:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background: #FFF0F3;
+}
+
+/* ============================
+   Download Modal - Size buttons
+   ============================ */
+.size-select-btn {
+    flex: 1;
+    padding: 20px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    cursor: pointer;
+    background: white;
+    color: #888;
+    text-align: center;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+
+.size-select-btn:hover {
+    border-color: #A50034;
+    color: #A50034;
+}
+
+.size-select-active {
+    border-color: #A50034 !important;
+    background: #FFF0F3 !important;
+    color: #A50034 !important;
+}
+
+/* ============================
+   Full Guide Modal - Nav pills
+   ============================ */
+.full-guide-nav-btn {
+    padding: 8px 20px;
+    border-radius: 20px;
+    border: 1.5px solid #ddd;
+    background: white;
+    color: #666;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+
+.full-guide-nav-btn:hover {
+    border-color: #A50034;
+    color: #A50034;
+}
+
+.full-guide-nav-active {
+    background: #A50034 !important;
+    border-color: #A50034 !important;
+    color: white !important;
+}
