@@ -16,7 +16,7 @@ const steelGuideData = [
     {
         id: 'sg3', name: '쿠킹', category: '철제스탠드 내지', date: '2026.03.12', isUpdated: false,
         file: { A4: 'cooking_a4.pptx', A3: 'cooking_a3.pptx' },
-        before: null, 
+        before: null,
         after: { color: '#E6E9ED', label: 'COOKING', note: '현재 등록된 최신 시안 가이드입니다.' },
         changes: []
     },
@@ -30,35 +30,35 @@ const steelGuideData = [
     {
         id: 'sg5', name: 'TV', category: '철제스탠드 내지', date: '2026.03.02', isUpdated: false,
         file: { A4: 'tv_a4.pptx', A3: 'tv_a3.pptx' },
-        before: null, 
+        before: null,
         after: { color: '#E6E9ED', label: 'TV', note: '현재 등록된 최신 시안 가이드입니다.' },
         changes: []
     },
     {
         id: 'sg6', name: '에어컨', category: '철제스탠드 내지', date: '2026.03.02', isUpdated: false,
         file: { A4: 'aircon_a4.pptx', A3: 'aircon_a3.pptx' },
-        before: null, 
+        before: null,
         after: { color: '#E6E9ED', label: 'AIRCON', note: '현재 등록된 최신 시안 가이드입니다.' },
         changes: []
     },
     {
         id: 'sg7', name: '냉장고', category: '철제스탠드 내지', date: '2026.02.20', isUpdated: false,
         file: { A4: 'fridge_a4.pptx', A3: 'fridge_a3.pptx' },
-        before: null, 
+        before: null,
         after: { color: '#E6E9ED', label: 'FRIDGE', note: '현재 등록된 최신 시안 가이드입니다.' },
         changes: []
     },
     {
         id: 'sg8', name: '세탁기', category: '철제스탠드 내지', date: '2026.02.20', isUpdated: false,
         file: { A4: 'washer_a4.pptx', A3: 'washer_a3.pptx' },
-        before: null, 
+        before: null,
         after: { color: '#E6E9ED', label: 'WASHER', note: '현재 등록된 최신 시안 가이드입니다.' },
         changes: []
     },
     {
         id: 'sg9', name: 'PC/모니터', category: '철제스탠드 내지', date: '2026.02.05', isUpdated: false,
         file: { A4: 'pc_a4.pptx', A3: 'pc_a3.pptx' },
-        before: null, 
+        before: null,
         after: { color: '#E6E9ED', label: 'PC/MONITOR', note: '현재 등록된 최신 시안 가이드입니다.' },
         changes: []
     }
@@ -138,7 +138,7 @@ Object.assign(app, {
 
         const selectedSet = guideSelectedIds[tab];
         const allSelected = filtered.length > 0 && filtered.every(item => selectedSet.has(item.id));
-        
+
         // Update Select All checkbox UI
         const selectAllBtn = document.getElementById(`${tab}SelectAll`);
         if (selectAllBtn) {
@@ -161,7 +161,7 @@ Object.assign(app, {
                      onclick="event.stopPropagation(); app.toggleGuideCard('${tab}', '${item.id}')">
                     <i class='bx bx-check' style="display:${checkIcon}; color:var(--primary-color);"></i>
                 </div>` : '';
-            
+
             const downloadBtnHtml = isSteel ? `
                 <div style="display:flex; gap:8px;">
                     <button class="steel-dl-btn" onclick="event.stopPropagation(); app.downloadGuideItem('${tab}', '${item.id}')" title="다운로드">
@@ -280,7 +280,7 @@ Object.assign(app, {
         const tab = activeTabBtn?.getAttribute('onclick')?.match(/'([^']+)'/)?.[1] || 'steel';
         const data = guideDataByCategory[tab];
         const selectedSet = guideSelectedIds[tab];
-        
+
         const items = currentDownloadMode === 'all' ? data : data.filter(d => selectedSet.has(d.id));
         const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
         const categoryName = tab === 'steel' ? '철제스탠드_내지' : (tab === 'digital' ? '디지털_컨텐츠' : '가이드');
@@ -428,7 +428,7 @@ Object.assign(app, {
                         </div>
                     </div>
                 `;
-            } 
+            }
             // Case 2: Standard item (Solo)
             else {
                 const soloData = item.after || { color: '#E6E9ED', label: item.name, note: '최신 시안 가이드' };

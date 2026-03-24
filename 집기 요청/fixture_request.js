@@ -20,7 +20,28 @@ const modelData = {
                 { id: 'v5_1', name: '호박 모형', type: 'vmd', size: '300 x 300', stock: 2, img: 'https://images.unsplash.com/photo-1508363778367-af993f3f3f50?auto=format&fit=crop&w=300&q=80' }
             ]
         },
-        { id: 'v6', name: '연출 집기_시즌', type: 'vmd', size: '1000 x 1000', stock: 10, img: 'https://images.unsplash.com/photo-1512338135235-8027607730e7?auto=format&fit=crop&w=300&q=80', category: '연출 집기' }
+        { id: 'v6', name: '연출 집기_시즌', type: 'vmd', size: '1000 x 1000', stock: 10, img: 'https://images.unsplash.com/photo-1512338135235-8027607730e7?auto=format&fit=crop&w=300&q=80', category: '연출 집기' },
+        {
+            id: 'v7', name: '시안1', type: 'vmd', size: 'N/A', stock: 10, img: 'images_filter/구독.jpg', category: '집기 세트', subItems: [
+                { id: 'v7_1', name: '대형 집기', type: 'vmd', size: '3000 x 1200', stock: 3, img: 'images_filter/대형 집기.png', cost: '2,500,000원' },
+                { id: 'v7_2', name: '중형 집기', type: 'vmd', size: '2400 x 1200', stock: 5, img: 'images_filter/중형 집기.png', cost: '1,800,000원' },
+                { id: 'v7_3', name: '소형 집기', type: 'vmd', size: '1600 x 600', stock: 8, img: 'images_filter/소형 집기.png', cost: '1,200,000원' }
+            ]
+        },
+        {
+            id: 'v8', name: '시안2', type: 'vmd', size: 'N/A', stock: 10, img: 'images_filter/웨딩.jpg', category: '집기 세트', subItems: [
+                { id: 'v8_1', name: '대형 집기', type: 'vmd', size: '3000 x 1200', stock: 3, img: 'images_filter/대형 집기.png', cost: '2,800,000원' },
+                { id: 'v8_2', name: '중형 집기', type: 'vmd', size: '2400 x 1200', stock: 5, img: 'images_filter/중형 집기.png', cost: '2,000,000원' },
+                { id: 'v8_3', name: '소형 집기', type: 'vmd', size: '1600 x 1200', stock: 8, img: 'images_filter/소형 집기.png', cost: '1,400,000원' }
+            ]
+        },
+        {
+            id: 'v9', name: '시안3', type: 'vmd', size: 'N/A', stock: 10, img: 'images_filter/오픈.jpg', category: '집기 세트', subItems: [
+                { id: 'v9_1', name: '대형 집기', type: 'vmd', size: '3000 x 1200', stock: 3, img: 'images_filter/대형 집기.png', cost: '3,000,000원' },
+                { id: 'v9_2', name: '중형 집기', type: 'vmd', size: '2400 x 1200', stock: 5, img: 'images_filter/중형 집기.png', cost: '2,200,000원' },
+                { id: 'v9_3', name: '소형 집기', type: 'vmd', size: '1600 x 1200', stock: 8, img: 'images_filter/소형 집기.png', cost: '1,500,000원' }
+            ]
+        }
     ],
     marketing: [
         {
@@ -120,7 +141,7 @@ Object.assign(app, {
         let categories = ['전체'];
 
         if (type === 'vmd') {
-            categories.push('키즈존', '미니 키즈존', '연출 집기');
+            categories.push('키즈존', '미니 키즈존', '연출 집기', '집기 세트');
         } else {
             categories.push('TV/오디오', 'PC/모니터', '주방가전', '생활가전', '에어컨/에어케어');
         }
@@ -238,10 +259,57 @@ Object.assign(app, {
         const nameEl = document.getElementById('detailName');
         const sizeEl = document.getElementById('detailSize');
         const stockEl = document.getElementById('detailStock');
+        const dateEl = document.getElementById('installDate');
 
         if (imgEl) imgEl.src = item.img;
         if (nameEl) nameEl.innerText = item.name;
         if (sizeEl) sizeEl.innerText = item.size;
+
+        const costRow = document.getElementById('detailCostRow');
+        const costEl = document.getElementById('detailCost');
+        if (costRow && costEl) {
+            if (item.cost) {
+                costRow.style.display = 'flex';
+                costEl.innerText = item.cost;
+            } else {
+                costRow.style.display = 'none';
+            }
+        }
+
+        if (dateEl) dateEl.value = '';
+        
+        // Reset new fields
+        this.removeUploadedImage();
+        const remarksEl = document.getElementById('specialRemarks');
+        if (remarksEl) remarksEl.value = '';
+    },
+
+    handleImageUpload(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('positionImagePreview');
+                const uploadBox = document.getElementById('positionImageUploadBox');
+                const previewContainer = document.getElementById('positionImagePreviewContainer');
+                
+                if (preview) preview.src = e.target.result;
+                if (uploadBox) uploadBox.style.display = 'none';
+                if (previewContainer) previewContainer.style.display = 'block';
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    },
+
+    removeUploadedImage() {
+        const input = document.getElementById('positionImageInput');
+        const preview = document.getElementById('positionImagePreview');
+        const uploadBox = document.getElementById('positionImageUploadBox');
+        const previewContainer = document.getElementById('positionImagePreviewContainer');
+
+        if (input) input.value = '';
+        if (preview) preview.src = '';
+        if (uploadBox) uploadBox.style.display = 'block';
+        if (previewContainer) previewContainer.style.display = 'none';
     },
 
     submitRequest() {
@@ -251,12 +319,27 @@ Object.assign(app, {
             return;
         }
 
+        const installDate = document.getElementById('installDate');
+        if (installDate && !installDate.value) {
+            alert('희망 설치일을 선택해주세요.');
+            return;
+        }
+
         const storeInfo = document.getElementById('selectedStoreInfo');
         if (storeInfo && storeInfo.style.display === 'none') {
             alert('요청 매장을 입력해주세요.');
             return;
         }
-        alert('요청이 완료되었습니다.');
+
+        const remarksEl = document.getElementById('specialRemarks');
+        const remarks = remarksEl ? remarksEl.value.trim() : '';
+
+        let msg = '요청이 완료되었습니다.';
+        if (remarks) {
+            msg += '\n(특이사항: ' + remarks + ')';
+        }
+        
+        alert(msg);
         this.navigateTo('home');
     }
 });

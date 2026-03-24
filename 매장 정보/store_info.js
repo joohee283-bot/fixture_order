@@ -940,13 +940,13 @@ Object.assign(app, {
         const filterContainer = document.getElementById('gallery-filters');
         if (!filterContainer) return;
         filterContainer.innerHTML = `
-            <div class="filter-level-1" style="display: flex; gap: 0.5rem; margin-bottom: 1rem; border-bottom: 1px solid #eee; padding-bottom: 1rem; width: 100%;">
+            <div class="filter-level-1" style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; width: 100%;">
                 <button class="filter-btn ${currentLevel1Detail === 'all' ? 'active' : ''}" onclick="app.setGalleryLevel1('all')">전체</button>
                 <button class="filter-btn ${currentLevel1Detail === '매장외부' ? 'active' : ''}" onclick="app.setGalleryLevel1('매장외부')">매장 외부</button>
                 <button class="filter-btn ${currentLevel1Detail === '제품존' ? 'active' : ''}" onclick="app.setGalleryLevel1('제품존')">제품존</button>
                 <button class="filter-btn ${currentLevel1Detail === '연출존' ? 'active' : ''}" onclick="app.setGalleryLevel1('연출존')">연출존</button>
             </div>
-            <div class="filter-level-2-gallery" style="display: flex; gap: 0.5rem; flex-wrap: wrap; width: 100%; min-height: 40px;"></div>
+            <div class="filter-level-2-gallery" style="display: flex; gap: 0.5rem; flex-wrap: wrap; width: 100%; min-height: 40px; margin-bottom: 1rem;"></div>
         `;
         this.renderGalleryLevel2();
     },
@@ -1063,7 +1063,7 @@ Object.assign(app, {
     setImgDlLevel1(l1, btn) {
         imgDlLevel1 = l1;
 
-        btn.parentElement.querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
+        btn.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
 
         this.renderImgDlLevel2();
@@ -1079,8 +1079,8 @@ Object.assign(app, {
         }
 
         const options = ZONE_HIERARCHY[imgDlLevel1] || [];
-        container.innerHTML = `<button class="chip ${imgDlSelectedLevel2.has('all') ? 'active' : ''}" onclick="app.toggleImgDlLevel2('all', this)">전체</button>` +
-            options.map(z => `<button class="chip ${imgDlSelectedLevel2.has(z) ? 'active' : ''}" onclick="app.toggleImgDlLevel2('${z}', this)">${z}</button>`).join('');
+        container.innerHTML = `<button class="filter-btn ${imgDlSelectedLevel2.has('all') ? 'active' : ''}" style="width: 100%; padding: 0.5rem 0;" onclick="app.toggleImgDlLevel2('all', this)">전체</button>` +
+            options.map(z => `<button class="filter-btn ${imgDlSelectedLevel2.has(z) ? 'active' : ''}" style="width: 100%; padding: 0.5rem 0;" onclick="app.toggleImgDlLevel2('${z}', this)">${z}</button>`).join('');
     },
 
     toggleImgDlLevel2(z, btn) {
@@ -1096,7 +1096,7 @@ Object.assign(app, {
                 imgDlSelectedLevel2.add(z);
             }
         }
-        btn.parentElement.querySelectorAll('.chip').forEach(b => {
+        btn.parentElement.querySelectorAll('.filter-btn').forEach(b => {
             const text = b.textContent;
             b.classList.toggle('active', imgDlSelectedLevel2.has(text === '전체' ? 'all' : text));
         });

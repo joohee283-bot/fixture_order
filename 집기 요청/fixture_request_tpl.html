@@ -136,6 +136,36 @@
                         </div>
                     </div>
 
+                    <div class="form-group" style="margin-bottom: 40px;">
+                        <label style="font-size:1.0rem; font-weight:bold;">희망 설치일 <span
+                                style="color:var(--primary-color); font-size:0.8rem; font-weight:normal;">*필수</span></label>
+                        <div class="date-input-container">
+                            <input type="date" id="installDate" class="date-input">
+                            <i class='bx bx-calendar date-icon'></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 40px;">
+                        <label style="font-size:1.0rem; font-weight:bold;">연출 위치 이미지 <span
+                                style="color:#999; font-size:0.8rem; font-weight:normal;">(선택)</span></label>
+                        <div class="file-upload-box" id="positionImageUploadBox" style="border: 1px dashed #ccc; border-radius: 8px; padding: 24px; text-align: center; cursor: pointer; background: #fafafa; transition: all 0.2s; margin-top: 8px;" onclick="document.getElementById('positionImageInput').click()">
+                            <i class='bx bx-image-add' style="font-size: 2.5rem; color: #999; margin-bottom: 8px;"></i>
+                            <div style="color: #666; font-size: 0.95rem; font-weight: 500;">클릭하여 이미지를 업로드하세요</div>
+                            <div style="color: #999; font-size: 0.8rem; margin-top: 4px;">또는 여기로 이미지를 드래그 앤 드롭 하세요</div>
+                            <input type="file" id="positionImageInput" style="display: none;" accept="image/*" onchange="app.handleImageUpload(this)">
+                        </div>
+                        <div id="positionImagePreviewContainer" style="margin-top: 12px; display: none; position: relative; width: fit-content;">
+                            <img id="positionImagePreview" src="" style="max-width: 100%; max-height: 250px; border-radius: 8px; border: 1px solid #ddd; display: block;">
+                            <i class='bx bxs-x-circle' style="position: absolute; top: -12px; right: -12px; font-size: 1.8rem; color: #ff4d4f; cursor: pointer; background: white; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onclick="app.removeUploadedImage()"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 40px;">
+                        <label style="font-size:1.0rem; font-weight:bold;">기타 특이사항 <span
+                                style="color:#999; font-size:0.8rem; font-weight:normal;">(선택)</span></label>
+                        <textarea id="specialRemarks" class="form-input" rows="4" placeholder="작업 시 필요한 기타 특이사항이나 전달사항을 입력해주세요." style="width: 100%; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; resize: vertical; font-family: inherit; font-size: 0.95rem; line-height: 1.5; margin-top: 8px; outline: none; transition: border-color 0.2s;"></textarea>
+                    </div>
+
                     <div class="mt-5">
                         <button class="btn btn-primary btn-block"
                             style="height:56px; font-weight:bold; background-color:#A50034; border-color:#A50034; font-size: 1.2rem; border-radius: 8px;"
@@ -144,5 +174,4 @@
                 </div>
             </div>
         </div>
-    </div>
 </template>

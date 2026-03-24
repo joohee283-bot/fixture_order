@@ -299,9 +299,38 @@
         padding: 0 16px;
         justify-content: flex-start;
     }
+
     .search-bar-wrap .search-box.bg-light {
         max-width: none;
     }
+}
+
+/* Date Picker */
+.date-input-container {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0 12px;
+    height: 48px;
+    position: relative;
+    margin-top: 8px;
+}
+
+.date-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    height: 100%;
+    color: #333;
+}
+
+.date-icon {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    pointer-events: none;
 }
 
 .bg-light {
@@ -316,4 +345,24 @@
     .fixture-preview-side {
         flex: 1;
     }
+}
+
+/* Estimated Cost Highlight */
+#detailCostRow {
+    background-color: #FFF5F7;
+    border: 1px solid #FFEBEF;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 20px !important;
+}
+
+#detailCostRow .info-label-text {
+    width: 100px;
+    font-weight: bold;
+    color: #333;
+}
+
+#detailCostRow .info-value-text {
+    font-size: 1.1rem;
+    font-weight: 800;
 }

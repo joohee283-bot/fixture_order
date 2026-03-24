@@ -60,6 +60,11 @@ h1.page-title {
     color: var(--text-gray);
 }
 
+.filter-btn:hover {
+    border-color: var(--lg-red);
+    color: var(--lg-red);
+}
+
 .filter-btn.active {
     background-color: var(--lg-red);
     color: var(--white);
@@ -368,10 +373,27 @@ h1.page-title {
 
 .modal-content {
     background: var(--white);
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
     border-radius: 12px;
+    padding: 2rem;
     position: relative;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    animation: fadeIn 0.3s ease;
+    overflow-y: auto;
+}
+
+.close-btn {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-gray);
+    z-index: 10;
+}
+
+.close-btn:hover {
+    color: var(--lg-red);
 }
 
 .gallery-modal-content {
@@ -485,12 +507,12 @@ h1.page-title {
 }
 
 .filter-btn-item {
-    padding: 0.5rem 1.25rem;
-    border: 1px solid var(--border-gray);
-    background: var(--white);
+    padding: 0.4rem 1.2rem;
+    border: 1px solid #E0E0E0;
+    background: #FFFFFF;
     border-radius: 40px;
-    font-size: 0.85rem;
-    color: var(--text-gray);
+    font-size: 0.9rem;
+    color: #666;
     cursor: pointer;
     transition: all 0.2s ease;
 }
@@ -502,8 +524,9 @@ h1.page-title {
 
 .filter-btn-item.active {
     background: var(--lg-red);
-    color: var(--white);
+    color: #FFFFFF;
     border-color: var(--lg-red);
+    font-weight: 600;
 }
 
 .selected-tags-container {
@@ -552,10 +575,12 @@ h1.page-title {
     width: 100%;
     border-collapse: collapse;
     font-size: 0.9rem;
-    min-width: 600px; /* Force scroll on very narrow screens */
+    min-width: 600px;
+    /* Force scroll on very narrow screens */
 }
 
-.download-table th, .download-table td {
+.download-table th,
+.download-table td {
     padding: 12px;
     border-bottom: 1px solid #eee;
     text-align: left;

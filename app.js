@@ -5,36 +5,10 @@ const app = {
     currentFixture: null,
     currentView: 'home',
 
-    async init() {
-        try {
-            await this.loadTemplates();
-            this.navigateTo('home');
-        } catch (error) {
-            console.error('Failed to load templates:', error);
-            // Fallback: still try to navigate to home if it exists in index.html
-            this.navigateTo('home');
-        }
+    init() {
+        this.navigateTo('home');
     },
 
-    async loadTemplates() {
-        const templates = [
-            '매장 정보/store_info_tpl.html',
-            '집기 요청/fixture_request_tpl.html',
-            '철제스탠드/guide_tpl.html'
-        ];
-
-        for (const url of templates) {
-            const response = await fetch(url);
-            if (response.ok) {
-                const html = await response.text();
-                const container = document.createElement('div');
-                container.innerHTML = html;
-                // Move all templates to the body
-                const tpls = container.querySelectorAll('template');
-                tpls.forEach(t => document.body.appendChild(t));
-            }
-        }
-    },
 
     navigateTo(viewId, initialData = null) {
         this.currentView = viewId;
